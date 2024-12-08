@@ -1,3 +1,7 @@
+const storedUserData = JSON.parse(localStorage.getItem('userData1'));
+if (!storedUserData) {
+    window.location.href = "./gemini-signup.html"
+}
 const typingform = document.querySelector(".typing-form");
 const chatList = document.querySelector(".chat-list");
 const toggleThemeButton = document.querySelector("#toggle-theme-button");
@@ -9,7 +13,7 @@ let userMessage = null;
 let isResponseGenerating = false;
 
 const API_KEY = "AIzaSyB6ZMtdRAQzu9eZMQ8vhAko49wiYyy9ITw";
-const API_URL = ` "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
+const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
 
 const loadLocalStorageData = () => {
     const SavedChats = localStorage.getItem("SavedChats")
@@ -60,7 +64,7 @@ const generateAPIresponse = async (incomingMessageDiv) => {
         });
 
         const data = await response.json();
-        if(!response.ok) throw new Error(data.error.message)
+        if (!response.ok) throw new Error(data.error.message)
         const aiResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text.replace(/\*\*(.*?)\*\*/g, '$1'); // Added optional chaining
 
         if (aiResponse) {
@@ -81,7 +85,7 @@ const generateAPIresponse = async (incomingMessageDiv) => {
 
 const showLoadingAnimation = () => {
     const html = `<div class="message-content">
-                <img src="./gemini.svg" alt="" class="avatar">
+                <img src="./img/gemini.svg" alt="" class="avatar">
                 <p class="text"></p>
                 <div class="loading-indicator">
                     <div class="loading-bar"></div>
@@ -122,7 +126,7 @@ const handleOutgoingChat = () => {
     isResponseGenerating = true;
 
     const html = `<div class="message-content">
-                <img src="./user.jpg" alt="" class="avatar">
+                <img src="./img/user.jpg" alt="" class="avatar">
                 <p class="text"></p>
             </div>`;
 
